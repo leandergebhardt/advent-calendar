@@ -28,8 +28,8 @@ import * as Cookies from 'tiny-cookie'
 import jsSHA from 'jssha'
 
 // create your own secret hash (for example here: https://caligatio.github.io/jsSHA/)
-const SECRET = '760aa5e0943be9e6644b9a1cec57c1caad7a5e1743f474eb1092d5b2489c2d15';
-const PASSWORD_HASH = '3b9bf616da7314dc569d352c06cc2a55c8c19248a7e3f72cf7225245cff75b313c73a6a26bb594082e7706554a5404768e0aedee545721a7ff7bde1dad494d5d'
+const SECRET = '605bf996570672d8e9021d32dd1848cb271a087da9152c4f5e5f352a258ac290';
+const PASSWORD_HASH = '4d7f7dfbc8435a7bffdc64c174872bf56340c0b8a058be871c1241b958a27bf7587f0e16eeaebcbcd6feb56fbf6c54928671836335fbf987a89b464176d250a0'
 
 export default {
   name: 'Login',

@@ -1,10 +1,13 @@
 <template>
-  <Day day="10.12.2024">
+  <Day day="10.11.2024">
     <div slot="page-content">
-      <h3>This is Day 10</h3>
-      <p>
-        Feel free to add whatever kind of markup, images, videos or custom JS logic as you like!
-      </p>
+      <img
+        class="img"
+        width="1200"
+        src="https://cdn.pixabay.com/photo/2023/07/11/10/40/tree-frog-8120111_1280.jpg"
+        alt=""
+      >
+      <p>Your emotional intelligence helps others understand themselves better.</p>
       <p class="caption-img">
         <img
           width="300"
