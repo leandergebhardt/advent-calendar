@@ -1,10 +1,14 @@
 <template>
   <Day day="24.12.2024">
     <div slot="page-content">
-      <h3>This is Day 13</h3>
-      <p>
-        Feel free to add whatever kind of markup, images, videos or custom JS logic as you like!
-      </p>
+      <h2>⭐🎄⭐</h2>
+      <img
+        class="img"
+        width="1200"
+        src="https://cdn.pixabay.com/photo/2021/10/04/06/08/amazon-milk-frog-6679632_1280.jpg"
+        alt=""
+      >
+      <p>The love you give makes the world a better place.</p>
       <p class="caption-img">
         <img
           width="300"

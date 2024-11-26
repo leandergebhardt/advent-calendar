@@ -1,10 +1,13 @@
 <template>
-  <Day day="20.12.2024">
+  <Day day="20.11.2024">
     <div slot="page-content">
-      <h3>This is Day 20</h3>
-      <p>
-        Feel free to add whatever kind of markup, images, videos or custom JS logic as you like!
-      </p>
+      <img
+        class="img"
+        width="1200"
+        src="https://cdn.pixabay.com/photo/2016/05/05/02/12/frog-1373140_1280.jpg"
+        alt=""
+      >
+      <p>The peace you bring to difficult situations is a gift.</p>
       <p class="caption-img">
         <img
           width="300"

@@ -92,6 +92,13 @@ img.thumbnail {
   width: 100%;
 }
 
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 p.center {
   text-align: center;
 }
