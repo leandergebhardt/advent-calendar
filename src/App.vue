@@ -1,21 +1,30 @@
 <template>
   <div id="app">
     <div class="background">
-      <video autoplay loop id="video-background" muted plays-inline>
-        <source :src="video.src" :type="video.type" />
+      <video
+        autoplay
+        loop
+        id="video-background"
+        muted
+        plays-inline
+      >
+        <source
+          :src="video.src"
+          :type="video.type"
+        >
       </video>
     </div>
     <div class="content">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import Moment from 'moment'
+//import Moment from 'moment'
 
 export default {
-  name: 'app',
+  name: 'App',
   data () {
     return {
       sources: [
@@ -36,7 +45,7 @@ export default {
   },
   computed: {
     video: function () {
-      let day = (new Moment()).format('d')
+      // let day = (new Moment()).format('d')
       //return this.sources[day % this.sources.length];
 
       // random on every page load:

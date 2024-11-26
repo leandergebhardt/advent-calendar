@@ -6,9 +6,9 @@
         Feel free to add whatever kind of markup, images, videos or custom JS logic as you like!
       </p>
       <img
-          width="300"
-          src="https://placekitten.com/300/300"
-          alt=""
+        width="300"
+        src="https://placekitten.com/300/300"
+        alt=""
       >
     </div>
   </Day>

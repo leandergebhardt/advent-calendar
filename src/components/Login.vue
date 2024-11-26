@@ -2,11 +2,23 @@
   <div>
     <h1>Please enter your password</h1>
     <div class="form">
-      <div class="error" v-if="error">
+      <div
+        class="error"
+        v-if="error"
+      >
         An error occured. Please try again!
       </div>
-      <input type="password" v-on:keyup.enter="checkLogin" v-model="pw">
-      <button type="submit" v-on:click="checkLogin">Login</button>
+      <input
+        type="password"
+        @keyup.enter="checkLogin"
+        v-model="pw"
+      >
+      <button
+        type="submit"
+        @click="checkLogin"
+      >
+        Login
+      </button>
     </div>
   </div>
 </template>
