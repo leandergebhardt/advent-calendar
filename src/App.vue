@@ -37,10 +37,10 @@ export default {
   computed: {
     video: function () {
       let day = (new Moment()).format('d')
-      return this.sources[day % this.sources.length];
+      //return this.sources[day % this.sources.length];
 
       // random on every page load:
-      // return this.sources[Math.floor(Math.random() * 3)]
+      return this.sources[Math.floor(Math.random() * 3)]
     }
   }
 }
