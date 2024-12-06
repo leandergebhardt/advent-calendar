@@ -36,14 +36,14 @@ export default {
           src: require('./assets/octagon.mp4'),
           type: 'video/mp4'
         },
-        {
-          src: require('./assets/particles.mp4'),
-          type: 'video/mp4'
-        },
-        {
-          src: require('./assets/snowflakes.mp4'),
-          type: 'video/mp4'
-        },
+        // {
+         //  src: require('./assets/particles.mp4'),
+         //  type: 'video/mp4'
+         //},
+         //{
+         //  src: require('./assets/snowflakes.mp4'),
+         //  type: 'video/mp4'
+         //},
       ]
     }
   },
@@ -53,7 +53,7 @@ export default {
       //return this.sources[day % this.sources.length];
 
       // random on every page load:
-      return this.sources[Math.floor(Math.random() * 3)]
+      return this.sources[0]
     }
   }
 }
