@@ -84,6 +84,7 @@ export default {
       GAME_SPEED: 150,
       snake: [{ x: 10, y: 10 }],
       direction: { x: 1, y: 0 },
+      nextDirection: { x: 1, y: 0 },
       food: { x: 15, y: 15 },
       gameOver: false,
       score: 0,
@@ -120,6 +121,9 @@ export default {
     },
     gameLoop() {
       if (this.gameOver || this.isPaused) return;
+
+      // Update direction from queued input
+      this.direction = this.nextDirection;
 
       const head = this.snake[0];
       const newHead = {
@@ -159,7 +163,8 @@ export default {
       if (this.gameOver) return;
       // Prevent reversing
       if (newDir.x === -this.direction.x && newDir.y === -this.direction.y) return;
-      this.direction = newDir;
+      // Queue the direction change for next game tick
+      this.nextDirection = newDir;
     },
     togglePause() {
       if (!this.gameOver) {
@@ -169,6 +174,7 @@ export default {
     resetGame() {
       this.snake = [{ x: 10, y: 10 }];
       this.direction = { x: 1, y: 0 };
+      this.nextDirection = { x: 1, y: 0 };
       this.food = this.generateFood();
       this.gameOver = false;
       this.score = 0;
@@ -389,8 +395,10 @@ export default {
   cursor: pointer;
   font-size: 1.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  transition: background 0.1s;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .control-btn:hover {
