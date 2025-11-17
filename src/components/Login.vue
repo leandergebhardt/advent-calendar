@@ -29,18 +29,24 @@ import jsSHA from 'jssha'
 
 // create your own secret hash (for example here: https://caligatio.github.io/jsSHA/)
 const SECRET = '605bf996570672d8e9021d32dd1848cb271a087da9152c4f5e5f352a258ac290';
-const PASSWORD_HASH = '4d7f7dfbc8435a7bffdc64c174872bf56340c0b8a058be871c1241b958a27bf7587f0e16eeaebcbcd6feb56fbf6c54928671836335fbf987a89b464176d250a0'
+const PASSWORD_HASH = '0eea4dee35f4e0b8ea73287e68d7f7fed5cdff2b0aa7edcdeca0f76572b177cdb0687b205b6dd471172670557fc7f23153c39a4d448ad8d904d5bfb51e8ef1b9'
 
 export default {
   name: 'Login',
   data () {
     return {
       pw: '',
-      error: false
+      error: false,
+      failedAttempts: 0,
+      lockoutUntil: null
     }
   },
   methods: {
     checkLogin: function () {
+      if (this.lockoutUntil && Date.now() < this.lockoutUntil) {
+      this.error = 'Too many attempts. Please wait.';
+      return;
+    }
       // this is not secure (!) & should be handled in the backend if necessary
       const pw = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
       pw.update(this.pw);
@@ -52,10 +58,14 @@ export default {
 
         Cookies.setCookie('REMEMBERME', true, {expires: expiryDate})
         this.error = false
-
+        this.failedAttempts = 0;
         // redirect to calendar view
         this.$router.replace({path: '/'})
       } else {
+        this.failedAttempts++;
+        if (this.failedAttempts >= 3) {
+          this.lockoutUntil = Date.now() + (30000 * Math.pow(2, this.failedAttempts - 3));
+        }
         this.error = true
       }
     }
