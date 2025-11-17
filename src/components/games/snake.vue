@@ -45,31 +45,14 @@
 
     <!-- Mobile Controls -->
     <div class="controls">
-      <div class="controls-grid">
-        <div></div>
-        <button @click="changeDirection({ x: 0, y: -1 })" class="control-btn">
-          ↑
-        </button>
-        <div></div>
-        <button @click="changeDirection({ x: -1, y: 0 })" class="control-btn">
-          ←
-        </button>
-        <button @click="togglePause" class="control-btn pause-btn">
-          {{ isPaused ? '▶' : '⏸' }}
-        </button>
-        <button @click="changeDirection({ x: 1, y: 0 })" class="control-btn">
-          →
-        </button>
-        <div></div>
-        <button @click="changeDirection({ x: 0, y: 1 })" class="control-btn">
-          ↓
-        </button>
-        <div></div>
-      </div>
+      <button @click="togglePause" class="pause-btn-mobile">
+        {{ isPaused ? '▶ Resume' : '⏸ Pause' }}
+      </button>
     </div>
 
     <div class="instructions">
-      Use arrow keys or WASD to play • Space to pause
+      <strong>Desktop:</strong> Arrow keys or WASD • Space to pause<br>
+      <strong>Mobile:</strong> Swipe to control direction
     </div>
   </div>
 </template>
@@ -91,7 +74,12 @@ export default {
       isPaused: false,
       trail: [],
       gameInterval: null,
-      trailInterval: null
+      trailInterval: null,
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0,
+      minSwipeDistance: 30
     };
   },
   computed: {
@@ -105,10 +93,14 @@ export default {
   mounted() {
     this.startGame();
     window.addEventListener('keydown', this.handleKeyPress);
+    document.addEventListener('touchstart', this.handleTouchStart, { passive: true });
+    document.addEventListener('touchend', this.handleTouchEnd, { passive: true });
   },
   beforeUnmount() {
     this.stopGame();
     window.removeEventListener('keydown', this.handleKeyPress);
+    document.removeEventListener('touchstart', this.handleTouchStart);
+    document.removeEventListener('touchend', this.handleTouchEnd);
   },
   methods: {
     startGame() {
@@ -213,6 +205,45 @@ export default {
           e.preventDefault();
           this.togglePause();
           break;
+      }
+    },
+    handleTouchStart(e) {
+      this.touchStartX = e.changedTouches[0].screenX;
+      this.touchStartY = e.changedTouches[0].screenY;
+    },
+    handleTouchEnd(e) {
+      if (this.gameOver) return;
+      
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.touchEndY = e.changedTouches[0].screenY;
+      this.handleSwipe();
+    },
+    handleSwipe() {
+      const deltaX = this.touchEndX - this.touchStartX;
+      const deltaY = this.touchEndY - this.touchStartY;
+      const absDeltaX = Math.abs(deltaX);
+      const absDeltaY = Math.abs(deltaY);
+
+      // Check if swipe is long enough
+      if (absDeltaX < this.minSwipeDistance && absDeltaY < this.minSwipeDistance) {
+        return;
+      }
+
+      // Determine swipe direction
+      if (absDeltaX > absDeltaY) {
+        // Horizontal swipe
+        if (deltaX > 0) {
+          this.changeDirection({ x: 1, y: 0 }); // Right
+        } else {
+          this.changeDirection({ x: -1, y: 0 }); // Left
+        }
+      } else {
+        // Vertical swipe
+        if (deltaY > 0) {
+          this.changeDirection({ x: 0, y: 1 }); // Down
+        } else {
+          this.changeDirection({ x: 0, y: -1 }); // Up
+        }
       }
     },
     getSegmentStyle(segment) {
@@ -379,21 +410,15 @@ export default {
   margin-top: 1.5rem;
 }
 
-.controls-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  width: 12rem;
-}
-
-.control-btn {
-  padding: 1rem;
-  background: rgba(147, 51, 234, 0.8);
+.pause-btn-mobile {
+  padding: 0.75rem 2rem;
+  background: rgba(6, 182, 212, 0.8);
   color: white;
+  font-weight: bold;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   transition: background 0.1s;
   user-select: none;
@@ -401,25 +426,13 @@ export default {
   touch-action: manipulation;
 }
 
-.control-btn:hover {
-  background: rgba(147, 51, 234, 1);
-}
-
-.control-btn:active {
-  background: rgba(107, 33, 168, 1);
-  transform: scale(0.95);
-}
-
-.control-btn.pause-btn {
-  background: rgba(6, 182, 212, 0.8);
-}
-
-.control-btn.pause-btn:hover {
+.pause-btn-mobile:hover {
   background: rgba(6, 182, 212, 1);
 }
 
-.control-btn.pause-btn:active {
+.pause-btn-mobile:active {
   background: rgba(8, 145, 178, 1);
+  transform: scale(0.95);
 }
 
 .instructions {
