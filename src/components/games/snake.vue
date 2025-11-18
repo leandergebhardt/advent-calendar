@@ -1,11 +1,12 @@
 <template>
   <div class="game-container">
-    <div class="header">
-      <h1 class="title">Snake Game</h1>
-      <div class="score">Score: {{ score }}</div>
-    </div>
+    <div class="game-content">
+      <div class="header">
+        <h1 class="title">Snake Game</h1>
+        <div class="score">Score: {{ score }}</div>
+      </div>
 
-    <div class="game-board" :style="boardStyle">
+      <div class="game-board" :style="boardStyle">
       <!-- Trail effect -->
       <div
         v-for="(segment, i) in trail"
@@ -53,6 +54,7 @@
     <div class="instructions">
       <strong>Desktop:</strong> Arrow keys or WASD • Space to pause<br>
       <strong>Mobile:</strong> Swipe to control direction
+    </div>
     </div>
   </div>
 </template>
@@ -280,20 +282,43 @@ export default {
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .game-container {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a);
-  padding: 1rem;
   overflow: hidden;
   touch-action: none;
+}
+
+.game-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .header {
