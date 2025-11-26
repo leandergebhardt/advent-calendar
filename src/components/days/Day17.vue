@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2022/06/22/20/21/frog-7278715_960_720.jpg"
+        src="https://cdn.pixabay.com/photo/2020/10/27/20/54/frog-5691917_1280.jpg"
         alt=""
       >
-      <p>Your unique qualities make you truly irreplaceable.</p>
+      <p>I love kissing you 😘</p>
       <p class="caption-img">
         <img
           width="300"

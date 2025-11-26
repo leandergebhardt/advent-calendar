@@ -1,13 +1,7 @@
 <template>
   <Day day="18.12.2024">
     <div slot="page-content">
-      <img
-        class="img"
-        width="1200"
-        src="https://cdn.pixabay.com/photo/2014/03/28/01/52/tree-frog-299874_1280.jpg"
-        alt=""
-      >
-      <p>The way you see the good in others is beautiful.</p>
+      <SideScroller/>
       <p class="caption-img">
         <img
           width="300"
@@ -21,11 +15,13 @@
 
 <script>
 import Day from '../Day.vue'
+import SideScroller from '../games/side_scroller.vue'
 
 export default {
   name: 'Day18',
   components: {
-    Day
+    Day,
+    SideScroller,
   }
 }
 </script>

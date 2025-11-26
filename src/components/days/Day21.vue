@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2021/07/09/12/02/frogs-6398961_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2019/05/13/09/33/frog-4199522_1280.jpg"
         alt=""
       >
-      <p>Your ability to find joy in simple things is precious.</p>
+      <p>I love to enjoy good food with you 😋</p>
       <p class="caption-img">
         <img
           width="300"

@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2017/03/16/11/25/frog-2148847_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2015/09/04/06/51/poison-frog-921684_1280.jpg"
         alt=""
       >
-      <p>The love you share enriches the lives of those around you.</p>
+      <p>I love your creativity 🎨</p>
       <p class="caption-img">
         <img
           width="300"
