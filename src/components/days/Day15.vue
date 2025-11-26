@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2020/12/15/14/56/green-tree-frog-5833905_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2014/05/03/08/51/toad-336922_1280.jpg"
         alt=""
       >
-      <p>Your presence makes every moment more special.</p>
+      <p>I love your eyes, and the looks you give me that are sometimes really sweet. 🥺</p>
       <p class="caption-img">
         <img
           width="300"

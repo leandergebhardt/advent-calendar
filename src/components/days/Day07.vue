@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2016/04/17/16/37/frog-1335022_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2020/09/01/16/23/frog-5535646_1280.jpg"
         alt=""
       >
-      <p>Your creativity and imagination bring magic to everyday moments.</p>
+      <p>I love your humor 🤡</p>
       <p class="caption-img">
         <img
           width="300"

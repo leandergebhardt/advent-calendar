@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2023/08/18/11/35/frog-8198313_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2014/03/28/02/05/tree-frog-299883_1280.jpg"
         alt=""
       >
-      <p>The wisdom you share helps others find their way.</p>
+      <p>I love to cuddle with you 🤗</p>
       <p class="caption-img">
         <img
           width="300"

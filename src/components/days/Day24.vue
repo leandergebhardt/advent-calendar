@@ -5,10 +5,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2021/10/04/06/08/amazon-milk-frog-6679632_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2014/06/17/21/35/frog-370751_1280.jpg"
         alt=""
       >
-      <p>The love you give makes the world a better place.</p>
+      <p>I love to show you new things 🗺️</p>
       <p class="caption-img">
         <img
           width="300"

@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2013/11/10/23/52/tomato-frog-208591_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2017/10/04/10/16/red-eye-frog-2815683_1280.png"
         alt=""
       >
-      <p>The warmth of your presence makes people feel safe and valued.</p>
+      <p>You are my favorite human 🫶🏼</p>
       <img
         width="300"
         src="https://placekitten.com/300/300"

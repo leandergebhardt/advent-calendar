@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2018/08/31/15/16/frog-3644865_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2015/08/11/21/41/maranonfrosch-885251_1280.jpg"
         alt=""
       >
-      <p>The way you listen and understand others is truly remarkable.</p>
+      <p>I love how you smell 👃🏼✨</p>
       <p class="caption-img">
         <img
           width="300"

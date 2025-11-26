@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2014/07/02/11/12/tree-frog-382059_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2023/02/07/15/00/horned-frog-7774339_1280.jpg"
         alt=""
       >
-      <p>The thoughtfulness you show in small gestures means the world.</p>
+      <p>I love your humor 😆</p>
       <p class="caption-img">
         <img
           width="300"

@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2016/01/20/15/24/frog-1151694_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2014/03/28/02/02/tree-frog-299881_1280.jpg"
         alt=""
       >
-      <p>The way you care for others shows the beautiful depth of your heart.</p>
+      <p>I love the noises you make.</p>
       <img
         width="300"
         src="https://placekitten.com/300/300"

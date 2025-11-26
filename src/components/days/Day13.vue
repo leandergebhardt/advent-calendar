@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2012/10/25/23/46/finger-coral-tree-frog-62889_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2024/02/27/00/13/heliconia-8599119_1280.jpg"
         alt=""
       >
-      <p>Your genuine nature makes people feel accepted and loved.</p>
+      <p>I love running my fingers through your hair.</p>
       <p class="caption-img">
         <img
           width="300"
