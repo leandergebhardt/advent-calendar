@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2023/07/11/10/40/tree-frog-8120111_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2018/08/27/11/49/the-frog-3634819_1280.jpg"
         alt=""
       >
-      <p>Your emotional intelligence helps others understand themselves better.</p>
+      <p>I love your butt 🍑</p>
       <p class="caption-img">
         <img
           width="300"
