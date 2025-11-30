@@ -2,19 +2,9 @@
   <Day day="24.12.2024">
     <div slot="page-content">
       <h2>⭐🎄⭐</h2>
-      <img
-        class="img"
-        width="1200"
-        src="https://cdn.pixabay.com/photo/2014/06/17/21/35/frog-370751_1280.jpg"
-        alt=""
-      >
-      <p>I love to show you new things 🗺️</p>
+      <Snake />
       <p class="caption-img">
-        <img
-          width="300"
-          src="https://placekitten.com/300/300"
-          alt=""
-        >
+        <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>
     </div>
   </Day>
@@ -22,11 +12,13 @@
 
 <script>
 import Day from '../Day.vue'
+import Snake from '../games/snake.vue'
 
 export default {
   name: 'Day24',
   components: {
-    Day
-  }
+    Day,
+    Snake,
+  },
 }
 </script>
