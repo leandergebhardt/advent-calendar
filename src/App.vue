@@ -1,17 +1,8 @@
 <template>
   <div id="app">
     <div class="background">
-      <video
-        autoplay
-        loop
-        id="video-background"
-        muted
-        plays-inline
-      >
-        <source
-          :src="video.src"
-          :type="video.type"
-        >
+      <video autoplay loop id="video-background" muted plays-inline>
+        <source :src="video.src" :type="video.type" />
       </video>
     </div>
     <div class="content">
@@ -21,76 +12,75 @@
 </template>
 
 <script>
-//import Moment from 'moment'
+import Moment from "moment";
 
 export default {
-  name: 'App',
+  name: "App",
   metaInfo: {
-      // if no subcomponents specify a metaInfo.title, this title will be used
-      title: 'Frankies Adventskalender',
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: "Frankies Adventskalender",
   },
-  data () {
+  data() {
     return {
       sources: [
         {
-          src: require('./assets/octagon.mp4'),
-          type: 'video/mp4'
+          src: require("./assets/snow-mountain-house.720x1280.mp4"),
+          type: "video/mp4",
         },
-        // {
-         //  src: require('./assets/particles.mp4'),
-         //  type: 'video/mp4'
-         //},
-         //{
-         //  src: require('./assets/snowflakes.mp4'),
-         //  type: 'video/mp4'
-         //},
-      ]
-    }
+        {
+          src: require("./assets/green-fields-and-peaks.720x1280.mp4"),
+          type: "video/mp4",
+        },
+        {
+          src: require("./assets/green-leaves.720x1280.mp4"),
+          type: "video/mp4",
+        },
+      ],
+    };
   },
   computed: {
     video: function () {
-      // let day = (new Moment()).format('d')
-      //return this.sources[day % this.sources.length];
-
-      // random on every page load:
-      return this.sources[0]
-    }
-  }
-}
+      let day = new Moment().format("d");
+      return this.sources[day % this.sources.length];
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css?family=Handlee|Montserrat:300,400');
+@import url("https://fonts.googleapis.com/css?family=Handlee|Montserrat:300,400");
 
-  html {
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 
-  body {
-    font-family: 'Montserrat', sans-serif;
-    color: #fff;
-    background: #222;
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+  background: #222;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
 
-    font-size: 100%;
-  }
+  font-size: 100%;
+}
 
-  a {
-    color: white;
-    outline: none;
-  }
+a {
+  color: white;
+  outline: none;
+}
 
-  h1 {
-    font-size: 6rem;
-    text-shadow: 0 2px 8px #666;
-    margin: 50px;
+h1 {
+  font-size: 6rem;
+  text-shadow: 0 2px 8px #666;
+  margin: 50px;
 
   @media screen and (max-width: 900px) {
     font-size: 3rem;
@@ -101,22 +91,23 @@ export default {
     font-size: 2rem;
     margin: 25px;
   }
-  }
+}
 
-  h1, h2 {
-    font-family: 'Handlee', cursive;
-    text-align: center;
-  }
+h1,
+h2 {
+  font-family: "Handlee", cursive;
+  text-align: center;
+}
 
-  #video-background {
-    /*  making the video fullscreen  */
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -100;
-  }
+#video-background {
+  /*  making the video fullscreen  */
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+}
 </style>
