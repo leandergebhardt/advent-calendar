@@ -15,13 +15,11 @@
 
 <script>
 import Day from "../Day.vue";
-import Tetris from "../games/tetris.vue";
 
 export default {
   name: "Day02",
   components: {
     Day,
-    Tetris,
   },
 };
 </script>

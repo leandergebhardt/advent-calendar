@@ -1,76 +1,70 @@
 <template>
   <div class="tetris-container">
     <div class="game-wrapper">
-      <h1 class="title">TETRIS</h1>
-
-      <div class="content">
-        <div class="sidebar">
-          <div class="score-box">
-            <div class="label">Score</div>
-            <div class="value score">{{ score }}</div>
+      <div class="header">
+        <h1 class="title">TETRIS</h1>
+        <div class="scores">
+          <div class="score-item">
+            <span class="label">Score:</span>
+            <span class="value score">{{ score }}</span>
           </div>
-
-          <div class="score-box">
-            <div class="label">High Score</div>
-            <div class="value high-score">{{ highScore }}</div>
-          </div>
-        </div>
-
-        <div class="game-area">
-          <div class="board" :style="boardStyle">
-            <div v-for="(row, y) in displayBoard" :key="y" class="board-row">
-              <div
-                v-for="(cell, x) in row"
-                :key="`${y}-${x}`"
-                class="cell"
-                :style="getCellStyle(cell)"
-              />
-            </div>
-          </div>
-
-          <button v-if="!gameStarted" @click="startGame" class="btn btn-start">
-            START GAME
-          </button>
-
-          <div v-if="gameOver" class="game-over">
-            <div class="game-over-text">GAME OVER!</div>
-            <button @click="startGame" class="btn btn-restart">
-              PLAY AGAIN
-            </button>
-          </div>
-
-          <div v-if="isPaused && gameStarted && !gameOver" class="paused">
-            PAUSED
-          </div>
-
-          <div v-if="gameStarted && !gameOver" class="controls">
-            <button @click="movePiece(-1, 0)" class="btn-control btn-move">
-              ←
-            </button>
-            <button @click="rotatePiece" class="btn-control btn-rotate">
-              ↻
-            </button>
-            <button @click="movePiece(1, 0)" class="btn-control btn-move">
-              →
-            </button>
-            <button @click="togglePause" class="btn-control btn-pause">
-              {{ isPaused ? "▶" : "⏸" }}
-            </button>
-            <button @click="dropPiece" class="btn-control btn-drop">↓</button>
-            <button @click="movePiece(0, 1)" class="btn-control btn-soft">
-              Soft ↓
-            </button>
+          <div class="score-item">
+            <span class="label">High:</span>
+            <span class="value high-score">{{ highScore }}</span>
           </div>
         </div>
       </div>
 
-      <div class="instructions">
-        <div class="inst-title">Controls:</div>
-        <div class="inst-grid">
-          <div>Touch buttons or keyboard</div>
-          <div>← → : Move</div>
-          <div>↻ : Rotate</div>
-          <div>↓ : Drop / Soft Drop</div>
+      <div class="game-area">
+        <div class="board" :style="boardStyle">
+          <div v-for="(row, y) in displayBoard" :key="y" class="board-row">
+            <div
+              v-for="(cell, x) in row"
+              :key="`${y}-${x}`"
+              class="cell"
+              :style="getCellStyle(cell)"
+            />
+          </div>
+        </div>
+
+        <div v-if="!gameStarted" class="overlay">
+          <button @click="startGame" class="btn btn-start">START GAME</button>
+        </div>
+
+        <div v-if="gameOver" class="overlay">
+          <div class="game-over-text">GAME OVER!</div>
+          <div class="final-score">Score: {{ score }}</div>
+          <button @click="startGame" class="btn btn-restart">PLAY AGAIN</button>
+        </div>
+
+        <div v-if="isPaused && gameStarted && !gameOver" class="overlay">
+          <div class="paused-text">PAUSED</div>
+          <button @click="togglePause" class="btn btn-resume">RESUME</button>
+        </div>
+      </div>
+
+      <div v-if="gameStarted && !gameOver" class="controls">
+        <div class="control-row">
+          <button @click="movePiece(-1, 0)" class="btn-control btn-move">
+            <span class="control-icon">←</span>
+          </button>
+          <button @click="rotatePiece" class="btn-control btn-rotate">
+            <span class="control-icon">↻</span>
+          </button>
+          <button @click="movePiece(1, 0)" class="btn-control btn-move">
+            <span class="control-icon">→</span>
+          </button>
+        </div>
+        <div class="control-row">
+          <button @click="togglePause" class="btn-control btn-pause">
+            <span class="control-icon-small">{{ isPaused ? "▶" : "⏸" }}</span>
+          </button>
+          <button @click="dropPiece" class="btn-control btn-drop">
+            <span class="control-icon">↓</span>
+          </button>
+          <button @click="movePiece(0, 1)" class="btn-control btn-soft">
+            <span class="control-icon-small">Soft</span>
+          </button>
         </div>
       </div>
     </div>
@@ -78,7 +72,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -147,13 +141,21 @@ export default {
     }));
 
     const calculateBlockSize = () => {
-      const maxWidth = Math.min(window.innerWidth - 40, 400);
-      const maxHeight = window.innerHeight - 300;
-      const size = Math.min(
-        Math.floor(maxWidth / BOARD_WIDTH),
-        Math.floor(maxHeight / BOARD_HEIGHT)
-      );
-      blockSize.value = Math.max(15, Math.min(30, size));
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      // Reserve space for header and controls with extra margin
+      const headerHeight = 70;
+      const controlsHeight = 160;
+      const padding = 40;
+
+      const availableHeight = vh - headerHeight - controlsHeight - padding;
+      const availableWidth = vw - padding;
+
+      const sizeByWidth = Math.floor(availableWidth / BOARD_WIDTH);
+      const sizeByHeight = Math.floor(availableHeight / BOARD_HEIGHT);
+
+      blockSize.value = Math.min(sizeByWidth, sizeByHeight, 35);
     };
 
     const loadHighScore = () => {
@@ -394,12 +396,18 @@ export default {
       calculateBlockSize();
       window.addEventListener("resize", calculateBlockSize);
       window.addEventListener("keydown", handleKeyPress);
+
+      // Prevent pull-to-refresh and other default touch behaviors
+      document.body.style.overscrollBehavior = "none";
+      document.body.style.touchAction = "none";
     });
 
     onUnmounted(() => {
       stopGame();
       window.removeEventListener("resize", calculateBlockSize);
       window.removeEventListener("keydown", handleKeyPress);
+      document.body.style.overscrollBehavior = "";
+      document.body.style.touchAction = "";
     });
 
     return {
@@ -423,62 +431,77 @@ export default {
 </script>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .tetris-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, #581c87, #1e3a8a);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(to bottom right, #581c87, #1e3a8a);
-  padding: 0.5rem;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .game-wrapper {
-  background-color: #111827;
-  border-radius: 0.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  padding: 1rem;
   width: 100%;
-  max-width: 42rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 15px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  min-height: 50px;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  margin-bottom: 0.5rem;
-  text-align: center;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.content {
+.scores {
+  display: flex;
+  gap: 15px;
+}
+
+.score-item {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.sidebar {
-  display: flex;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-.score-box {
-  background-color: #1f2937;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  flex: 1;
+  align-items: flex-end;
 }
 
 .label {
-  color: white;
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .value {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  line-height: 1;
 }
 
 .score {
@@ -490,16 +513,20 @@ export default {
 }
 
 .game-area {
+  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 0;
 }
 
 .board {
-  border: 2px solid #374151;
-  background-color: #000;
-  gap: 1px;
+  border: 3px solid #374151;
   background-color: #111;
+  gap: 1px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  margin-bottom: 10px;
 }
 
 .board-row {
@@ -511,216 +538,163 @@ export default {
   box-sizing: border-box;
 }
 
-.btn {
-  width: 100%;
-  margin-top: 0.75rem;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.game-over-text,
+.paused-text {
+  color: white;
+  font-size: 2.5rem;
   font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.final-score {
+  color: #fbbf24;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.btn {
+  font-weight: bold;
+  padding: 15px 40px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .btn-start,
-.btn-restart {
-  background-color: #059669;
+.btn-restart,
+.btn-resume {
+  background: linear-gradient(to bottom, #059669, #047857);
   color: white;
-}
-
-.btn-start:hover,
-.btn-restart:hover {
-  background-color: #047857;
 }
 
 .btn-start:active,
-.btn-restart:active {
-  background-color: #065f46;
-}
-
-.game-over {
-  margin-top: 0.75rem;
-  width: 100%;
-}
-
-.game-over-text {
-  background-color: #dc2626;
-  color: white;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.paused {
-  margin-top: 0.75rem;
-  background-color: #ca8a04;
-  color: white;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  font-size: 0.875rem;
+.btn-restart:active,
+.btn-resume:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px 10px;
+}
+
+.control-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  width: 100%;
-  max-width: 20rem;
+  gap: 10px;
 }
 
 .btn-control {
   font-weight: bold;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
+  padding: 0;
+  height: 60px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   color: white;
-  font-size: 1.125rem;
+  transition: all 0.1s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.btn-control:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.control-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.control-icon-small {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .btn-move {
-  background-color: #2563eb;
-}
-
-.btn-move:hover {
-  background-color: #1d4ed8;
-}
-
-.btn-move:active {
-  background-color: #1e40af;
+  background: linear-gradient(to bottom, #2563eb, #1d4ed8);
 }
 
 .btn-rotate {
-  background-color: #9333ea;
-}
-
-.btn-rotate:hover {
-  background-color: #7e22ce;
-}
-
-.btn-rotate:active {
-  background-color: #6b21a8;
+  background: linear-gradient(to bottom, #9333ea, #7e22ce);
 }
 
 .btn-pause {
-  background-color: #ca8a04;
-  font-size: 0.875rem;
-}
-
-.btn-pause:hover {
-  background-color: #a16207;
-}
-
-.btn-pause:active {
-  background-color: #854d0e;
+  background: linear-gradient(to bottom, #ca8a04, #a16207);
 }
 
 .btn-drop {
-  background-color: #dc2626;
-}
-
-.btn-drop:hover {
-  background-color: #b91c1c;
-}
-
-.btn-drop:active {
-  background-color: #991b1b;
+  background: linear-gradient(to bottom, #dc2626, #b91c1c);
 }
 
 .btn-soft {
-  background-color: #2563eb;
-  font-size: 0.875rem;
+  background: linear-gradient(to bottom, #2563eb, #1d4ed8);
 }
 
-.btn-soft:hover {
-  background-color: #1d4ed8;
-}
-
-.btn-soft:active {
-  background-color: #1e40af;
-}
-
-.instructions {
-  margin-top: 0.75rem;
-  background-color: #1f2937;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  color: white;
-  font-size: 0.75rem;
-}
-
-.inst-title {
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-}
-
-.inst-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0 1rem;
-}
-
-@media (min-width: 640px) {
+/* Landscape mode adjustments */
+@media (orientation: landscape) {
   .game-wrapper {
-    padding: 1.5rem;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .header {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    min-height: auto;
+    min-width: 50px;
   }
 
   .title {
-    font-size: 2.25rem;
-    margin-bottom: 1rem;
+    font-size: 1.2rem;
   }
 
-  .content {
-    flex-direction: row;
-    gap: 1.5rem;
-    align-items: flex-start;
-  }
-
-  .sidebar {
+  .scores {
     flex-direction: column;
-    width: auto;
+    gap: 20px;
   }
 
-  .score-box {
-    padding: 0.75rem;
+  .controls {
+    min-width: 200px;
+    flex-shrink: 0;
   }
+}
 
-  .label {
-    font-size: 0.875rem;
+/* Large screens */
+@media (min-width: 768px) {
+  .title {
+    font-size: 2rem;
   }
 
   .value {
     font-size: 1.5rem;
-  }
-
-  .board {
-    border: 4px solid #374151;
-  }
-
-  .btn {
-    font-size: 1rem;
-  }
-
-  .game-over-text,
-  .paused {
-    font-size: 1rem;
-  }
-
-  .btn-pause,
-  .btn-soft {
-    font-size: 1rem;
-  }
-
-  .instructions {
-    font-size: 0.875rem;
   }
 }
 </style>
