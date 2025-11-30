@@ -1,5 +1,5 @@
 <template>
-  <Day day="02.12.2024">
+  <Day day="02.12.2025">
     <div slot="page-content">
       <img
         class="img"
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import Day from "../Day.vue";
+import Day from '../Day.vue'
 
 export default {
-  name: "Day02",
+  name: 'Day02',
   components: {
     Day,
   },
-};
+}
 </script>
