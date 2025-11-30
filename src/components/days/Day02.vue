@@ -1,6 +1,6 @@
 <template>
   <Day day="02.12.2024">
-    <div slot="page-content"></div>
+    <div slot="page-content">
       <img
         class="img"
         width="1200"
