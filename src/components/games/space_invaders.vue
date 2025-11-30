@@ -1,512 +1,452 @@
 <template>
   <div class="game-container">
-    <canvas ref="canvas" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd"></canvas>
-    
-    <div v-if="!gameStarted" class="start-screen">
-      <h1 class="title">SPACE INVADERS</h1>
-      <p class="highscore">HIGH SCORE: {{ highScore }}</p>
-      <button @click="startGame" class="start-btn">START GAME</button>
+    <canvas
+      ref="canvas"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+      @mousedown="handleMouseDown"
+      @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
+    />
+
+    <div class="score-display">
+      <div class="score">Score: {{ score }}</div>
+      <div class="high-score">High: {{ highScore }}</div>
     </div>
-    
-    <div v-if="gameOver" class="game-over-screen">
-      <h2 class="game-over-title">GAME OVER</h2>
-      <p class="final-score">SCORE: {{ score }}</p>
-      <p v-if="score === highScore && score > 0" class="new-high">NEW HIGH SCORE!</p>
-      <button @click="restartGame" class="restart-btn">PLAY AGAIN</button>
-    </div>
-    
-    <div v-if="gameStarted && !gameOver" class="hud">
-      <div class="score">SCORE: {{ score }}</div>
-      <div class="lives">LIVES: {{ lives }}</div>
-    </div>
-    
-    <div v-if="gameStarted && !gameOver" class="mobile-controls">
-      <button @touchstart.prevent="moveLeft" @touchend.prevent="stopMove" class="control-btn left-btn">◄</button>
-      <button @touchstart.prevent="shoot" class="control-btn fire-btn">FIRE</button>
-      <button @touchstart.prevent="moveRight" @touchend.prevent="stopMove" class="control-btn right-btn">►</button>
+
+    <div v-if="!gameStarted" class="menu-overlay">
+      <div class="menu-content">
+        <h1 class="title">SPACE INVADERS</h1>
+        <div v-if="gameOver">
+          <div class="game-over">GAME OVER</div>
+          <div class="final-score">Final Score: {{ score }}</div>
+        </div>
+        <button @click="startGame" class="start-button">
+          {{ gameOver ? 'PLAY AGAIN' : 'START GAME' }}
+        </button>
+        <div class="instructions">Touch/Click and hold to move and shoot</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'SpaceInvaders',
   data() {
     return {
-      canvas: null,
-      ctx: null,
-      gameStarted: false,
-      gameOver: false,
       score: 0,
       highScore: 0,
-      lives: 3,
-      player: { x: 0, y: 0, width: 40, height: 30, speed: 3 },
-      bullets: [],
-      enemies: [],
-      enemyBullets: [],
-      keys: {},
-      moveDirection: 0,
+      gameOver: false,
+      gameStarted: false,
+      gameState: {
+        player: { x: 0, y: 0, width: 40, height: 30, speed: 5 },
+        bullets: [],
+        enemies: [],
+        enemyBullets: [],
+        touchX: null,
+        shooting: false,
+        lastShot: 0,
+        enemyDirection: 1,
+        enemyMoveDown: false,
+      },
       animationId: null,
-      enemyDirection: 1,
-      enemySpeed: 0.5,
-      enemyDropDistance: 15,
-      lastEnemyShot: 0,
-      touchStartX: 0
+      lastUpdate: 0,
+      enemyMoveCounter: 0,
     }
   },
   mounted() {
-    this.canvas = this.$refs.canvas;
-    this.ctx = this.canvas.getContext('2d');
-    this.resizeCanvas();
-    window.addEventListener('resize', this.resizeCanvas);
-    window.addEventListener('keydown', this.handleKeyDown);
-    window.addEventListener('keyup', this.handleKeyUp);
-    this.loadHighScore();
-    this.player.x = this.canvas.width / 2 - this.player.width / 2;
-    this.player.y = this.canvas.height - 80;
+    this.loadHighScore()
+    this.resizeCanvas()
+    window.addEventListener('resize', this.resizeCanvas)
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.resizeCanvas);
-    window.removeEventListener('keydown', this.handleKeyDown);
-    window.removeEventListener('keyup', this.handleKeyUp);
+    window.removeEventListener('resize', this.resizeCanvas)
     if (this.animationId) {
-      cancelAnimationFrame(this.animationId);
+      cancelAnimationFrame(this.animationId)
     }
   },
   methods: {
-    resizeCanvas() {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
-      if (this.gameStarted) {
-        this.player.x = this.canvas.width / 2 - this.player.width / 2;
-        this.player.y = this.canvas.height - 80;
-      }
-    },
     loadHighScore() {
-      const saved = localStorage.getItem('spaceInvadersHighScore');
+      const saved = localStorage.getItem('space-invaders-highscore')
       if (saved) {
-        this.highScore = parseInt(saved);
+        this.highScore = parseInt(saved)
       }
     },
-    saveHighScore() {
-      if (this.score > this.highScore) {
-        this.highScore = this.score;
-        localStorage.setItem('spaceInvadersHighScore', this.highScore.toString());
-      }
+    saveHighScore(newScore) {
+      localStorage.setItem('space-invaders-highscore', newScore.toString())
+      this.highScore = newScore
     },
-    startGame() {
-      this.gameStarted = true;
-      this.gameOver = false;
-      this.score = 0;
-      this.lives = 3;
-      this.bullets = [];
-      this.enemyBullets = [];
-      this.enemyDirection = 1;
-      this.enemySpeed = 0.5;
-      this.lastEnemyShot = Date.now();
-      this.player.x = this.canvas.width / 2 - this.player.width / 2;
-      this.player.y = this.canvas.height - 80;
-      this.initEnemies();
-      this.gameLoop();
-    },
-    restartGame() {
-      this.startGame();
-    },
-    initEnemies() {
-      this.enemies = [];
-      const rows = 4;
-      const cols = 8;
-      const enemyWidth = 35;
-      const enemyHeight = 30;
-      const spacing = 50;
-      const startX = (this.canvas.width - cols * spacing) / 2;
-      
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          this.enemies.push({
-            x: startX + col * spacing,
-            y: 50 + row * 40,
-            width: enemyWidth,
-            height: enemyHeight,
-            color: this.getEnemyColor(row)
-          });
+    resizeCanvas() {
+      const canvas = this.$refs.canvas
+      if (canvas) {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        if (this.gameStarted && !this.gameOver) {
+          this.gameState.player.y = canvas.height - 60
         }
       }
     },
-    getEnemyColor(row) {
-      const colors = ['#ff006e', '#fb5607', '#ffbe0b', '#8338ec'];
-      return colors[row % colors.length];
+    initGame() {
+      const canvas = this.$refs.canvas
+      if (!canvas) return
+
+      const state = this.gameState
+      state.player.x = canvas.width / 2 - state.player.width / 2
+      state.player.y = canvas.height - 60
+      state.bullets = []
+      state.enemyBullets = []
+      state.enemies = []
+      state.enemyDirection = 1
+      state.enemyMoveDown = false
+      state.touchX = null
+      state.shooting = false
+      state.lastShot = 0
+
+      // Create enemy grid
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 8; col++) {
+          state.enemies.push({
+            x: col * 60 + 50,
+            y: row * 50 + 50,
+            width: 35,
+            height: 35,
+            alive: true,
+          })
+        }
+      }
+
+      this.score = 0
+      this.gameOver = false
+      this.gameStarted = true
+      this.lastUpdate = 0
+      this.enemyMoveCounter = 0
+      this.$nextTick(() => {
+        this.gameLoop()
+      })
     },
-    handleKeyDown(e) {
-      this.keys[e.key] = true;
-      if (e.key === ' ' && this.gameStarted && !this.gameOver) {
-        this.shoot();
-        e.preventDefault();
+    drawPlayer(ctx) {
+      const p = this.gameState.player
+      ctx.fillStyle = '#4ade80'
+      ctx.fillRect(p.x, p.y, p.width, p.height)
+      ctx.fillRect(p.x + 15, p.y - 10, 10, 10)
+    },
+    drawBullets(ctx) {
+      ctx.fillStyle = '#fbbf24'
+      this.gameState.bullets.forEach((bullet) => {
+        ctx.fillRect(bullet.x, bullet.y, 3, 10)
+      })
+    },
+    drawEnemyBullets(ctx) {
+      ctx.fillStyle = '#ef4444'
+      this.gameState.enemyBullets.forEach((bullet) => {
+        ctx.fillRect(bullet.x, bullet.y, 3, 10)
+      })
+    },
+    drawEnemies(ctx) {
+      ctx.fillStyle = '#8b5cf6'
+      this.gameState.enemies.forEach((enemy) => {
+        if (enemy.alive) {
+          ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height)
+          ctx.fillRect(enemy.x + 5, enemy.y - 8, 8, 8)
+          ctx.fillRect(enemy.x + 22, enemy.y - 8, 8, 8)
+        }
+      })
+    },
+    updateBullets() {
+      this.gameState.bullets = this.gameState.bullets.filter((bullet) => {
+        bullet.y -= 6
+        return bullet.y > 0
+      })
+    },
+    updateEnemyBullets() {
+      const canvas = this.$refs.canvas
+      this.gameState.enemyBullets = this.gameState.enemyBullets.filter((bullet) => {
+        bullet.y += 3
+        return bullet.y < canvas.height
+      })
+    },
+    checkCollisions() {
+      const state = this.gameState
+
+      state.bullets.forEach((bullet, bIndex) => {
+        state.enemies.forEach((enemy) => {
+          if (
+            enemy.alive &&
+            bullet.x > enemy.x &&
+            bullet.x < enemy.x + enemy.width &&
+            bullet.y > enemy.y &&
+            bullet.y < enemy.y + enemy.height
+          ) {
+            enemy.alive = false
+            state.bullets.splice(bIndex, 1)
+            this.score += 10
+          }
+        })
+      })
+
+      state.enemyBullets.forEach((bullet) => {
+        if (
+          bullet.x > state.player.x &&
+          bullet.x < state.player.x + state.player.width &&
+          bullet.y > state.player.y &&
+          bullet.y < state.player.y + state.player.height
+        ) {
+          this.gameOver = true
+          this.gameStarted = false
+          if (this.score > this.highScore) {
+            this.saveHighScore(this.score)
+          }
+        }
+      })
+    },
+    updateEnemies() {
+      const canvas = this.$refs.canvas
+      const state = this.gameState
+      const aliveEnemies = state.enemies.filter((e) => e.alive)
+
+      if (aliveEnemies.length === 0) {
+        this.initGame()
+        return
+      }
+
+      // Only move enemies every 15 frames
+      this.enemyMoveCounter++
+      if (this.enemyMoveCounter < 15) {
+        // Still shoot even when not moving
+        if (Math.random() < 0.015 && aliveEnemies.length > 0) {
+          const shooter = aliveEnemies[Math.floor(Math.random() * aliveEnemies.length)]
+          state.enemyBullets.push({
+            x: shooter.x + shooter.width / 2,
+            y: shooter.y + shooter.height,
+          })
+        }
+        return
+      }
+      this.enemyMoveCounter = 0
+
+      const leftMost = Math.min(...aliveEnemies.map((e) => e.x))
+      const rightMost = Math.max(...aliveEnemies.map((e) => e.x + e.width))
+
+      if (state.enemyMoveDown) {
+        state.enemies.forEach((enemy) => {
+          if (enemy.alive) enemy.y += 15
+        })
+        state.enemyDirection *= -1
+        state.enemyMoveDown = false
+      } else {
+        if (
+          (rightMost >= canvas.width - 20 && state.enemyDirection > 0) ||
+          (leftMost <= 20 && state.enemyDirection < 0)
+        ) {
+          state.enemyMoveDown = true
+        }
+
+        state.enemies.forEach((enemy) => {
+          if (enemy.alive) enemy.x += state.enemyDirection * 1
+        })
+      }
+
+      if (Math.random() < 0.015 && aliveEnemies.length > 0) {
+        const shooter = aliveEnemies[Math.floor(Math.random() * aliveEnemies.length)]
+        state.enemyBullets.push({
+          x: shooter.x + shooter.width / 2,
+          y: shooter.y + shooter.height,
+        })
+      }
+
+      const lowestEnemy = Math.max(...aliveEnemies.map((e) => e.y))
+      if (lowestEnemy >= state.player.y - 30) {
+        this.gameOver = true
+        this.gameStarted = false
+        if (this.score > this.highScore) {
+          this.saveHighScore(this.score)
+        }
       }
     },
-    handleKeyUp(e) {
-      this.keys[e.key] = false;
-    },
-    handleTouchStart(e) {
-      this.touchStartX = e.touches[0].clientX;
-    },
-    handleTouchMove(e) {
-      if (!this.gameStarted || this.gameOver) return;
-      const touchX = e.touches[0].clientX;
-      const rect = this.canvas.getBoundingClientRect();
-      this.player.x = touchX - rect.left - this.player.width / 2;
-      this.player.x = Math.max(0, Math.min(this.canvas.width - this.player.width, this.player.x));
-    },
-    handleTouchEnd() {
-      this.touchStartX = 0;
-    },
-    moveLeft() {
-      this.moveDirection = -1;
-    },
-    moveRight() {
-      this.moveDirection = 1;
-    },
-    stopMove() {
-      this.moveDirection = 0;
-    },
-    shoot() {
-      if (this.bullets.length < 3) {
-        this.bullets.push({
-          x: this.player.x + this.player.width / 2 - 2,
-          y: this.player.y,
-          width: 4,
-          height: 15,
-          speed: 5
-        });
+    updatePlayer() {
+      const canvas = this.$refs.canvas
+      const state = this.gameState
+
+      if (state.touchX !== null) {
+        state.player.x = state.touchX - state.player.width / 2
+      }
+      state.player.x = Math.max(0, Math.min(canvas.width - state.player.width, state.player.x))
+
+      if (state.shooting && Date.now() - state.lastShot > 400) {
+        state.bullets.push({
+          x: state.player.x + state.player.width / 2,
+          y: state.player.y,
+        })
+        state.lastShot = Date.now()
       }
     },
     gameLoop() {
-      if (this.gameOver) return;
-      
-      this.update();
-      this.draw();
-      this.animationId = requestAnimationFrame(this.gameLoop);
+      if (!this.gameStarted || this.gameOver) return
+
+      const canvas = this.$refs.canvas
+      const ctx = canvas.getContext('2d')
+
+      ctx.fillStyle = '#0f172a'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      this.updatePlayer()
+      this.updateBullets()
+      this.updateEnemyBullets()
+      this.updateEnemies()
+      this.checkCollisions()
+
+      this.drawPlayer(ctx)
+      this.drawBullets(ctx)
+      this.drawEnemyBullets(ctx)
+      this.drawEnemies(ctx)
+
+      this.animationId = requestAnimationFrame(this.gameLoop)
     },
-    update() {
-      // Player movement
-      if (this.keys['ArrowLeft'] || this.keys['a']) {
-        this.player.x -= this.player.speed;
-      }
-      if (this.keys['ArrowRight'] || this.keys['d']) {
-        this.player.x += this.player.speed;
-      }
-      
-      // Mobile controls
-      if (this.moveDirection !== 0) {
-        this.player.x += this.moveDirection * this.player.speed;
-      }
-      
-      this.player.x = Math.max(0, Math.min(this.canvas.width - this.player.width, this.player.x));
-      
-      // Update bullets
-      this.bullets = this.bullets.filter(bullet => {
-        bullet.y -= bullet.speed;
-        return bullet.y > 0;
-      });
-      
-      // Update enemy bullets
-      this.enemyBullets = this.enemyBullets.filter(bullet => {
-        bullet.y += bullet.speed;
-        return bullet.y < this.canvas.height;
-      });
-      
-      // Move enemies
-      let shouldDrop = false;
-      for (let enemy of this.enemies) {
-        enemy.x += this.enemyDirection * this.enemySpeed;
-        if (enemy.x <= 0 || enemy.x + enemy.width >= this.canvas.width) {
-          shouldDrop = true;
-        }
-      }
-      
-      if (shouldDrop) {
-        this.enemyDirection *= -1;
-        for (let enemy of this.enemies) {
-          enemy.y += this.enemyDropDistance;
-        }
-      }
-      
-      // Enemy shooting
-      if (Date.now() - this.lastEnemyShot > 1000 && this.enemies.length > 0) {
-        const shooter = this.enemies[Math.floor(Math.random() * this.enemies.length)];
-        this.enemyBullets.push({
-          x: shooter.x + shooter.width / 2 - 2,
-          y: shooter.y + shooter.height,
-          width: 4,
-          height: 15,
-          speed: 3
-        });
-        this.lastEnemyShot = Date.now();
-      }
-      
-      // Collision detection - bullets vs enemies
-      for (let i = this.bullets.length - 1; i >= 0; i--) {
-        const bullet = this.bullets[i];
-        for (let j = this.enemies.length - 1; j >= 0; j--) {
-          const enemy = this.enemies[j];
-          if (this.checkCollision(bullet, enemy)) {
-            this.bullets.splice(i, 1);
-            this.enemies.splice(j, 1);
-            this.score += 10;
-            break;
-          }
-        }
-      }
-      
-      // Collision detection - enemy bullets vs player
-      for (let i = this.enemyBullets.length - 1; i >= 0; i--) {
-        const bullet = this.enemyBullets[i];
-        if (this.checkCollision(bullet, this.player)) {
-          this.enemyBullets.splice(i, 1);
-          this.lives--;
-          if (this.lives <= 0) {
-            this.endGame();
-          }
-        }
-      }
-      
-      // Check if enemies reached player (with safer distance check)
-      for (let enemy of this.enemies) {
-        if (enemy.y + enemy.height >= this.player.y - 20) {
-          this.endGame();
-          break;
-        }
-      }
-      
-      // Check if all enemies destroyed
-      if (this.enemies.length === 0) {
-        this.enemySpeed += 0.3;
-        this.initEnemies();
+    handleTouchStart(e) {
+      e.preventDefault()
+      const touch = e.touches[0]
+      this.gameState.touchX = touch.clientX
+      this.gameState.shooting = true
+    },
+    handleTouchMove(e) {
+      e.preventDefault()
+      const touch = e.touches[0]
+      this.gameState.touchX = touch.clientX
+    },
+    handleTouchEnd(e) {
+      e.preventDefault()
+      this.gameState.shooting = false
+    },
+    handleMouseDown(e) {
+      this.gameState.touchX = e.clientX
+      this.gameState.shooting = true
+    },
+    handleMouseMove(e) {
+      if (this.gameState.shooting) {
+        this.gameState.touchX = e.clientX
       }
     },
-    checkCollision(rect1, rect2) {
-      return rect1.x < rect2.x + rect2.width &&
-             rect1.x + rect1.width > rect2.x &&
-             rect1.y < rect2.y + rect2.height &&
-             rect1.y + rect1.height > rect2.y;
+    handleMouseUp() {
+      this.gameState.shooting = false
     },
-    draw() {
-      // Background
-      this.ctx.fillStyle = '#0a0e27';
-      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-      
-      // Stars
-      this.ctx.fillStyle = '#ffffff';
-      for (let i = 0; i < 50; i++) {
-        const x = (i * 37) % this.canvas.width;
-        const y = (i * 53) % this.canvas.height;
-        this.ctx.fillRect(x, y, 2, 2);
-      }
-      
-      // Draw player
-      this.drawPlayer();
-      
-      // Draw bullets
-      this.ctx.fillStyle = '#00ff41';
-      for (let bullet of this.bullets) {
-        this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-      }
-      
-      // Draw enemy bullets
-      this.ctx.fillStyle = '#ff006e';
-      for (let bullet of this.enemyBullets) {
-        this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-      }
-      
-      // Draw enemies
-      for (let enemy of this.enemies) {
-        this.drawEnemy(enemy);
+    enterFullscreen() {
+      const elem = document.documentElement
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen()
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen()
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen()
       }
     },
-    drawPlayer() {
-      this.ctx.fillStyle = '#00d9ff';
-      this.ctx.fillRect(this.player.x + 10, this.player.y, 20, 20);
-      this.ctx.fillStyle = '#00ff41';
-      this.ctx.fillRect(this.player.x, this.player.y + 20, 40, 10);
-      this.ctx.fillStyle = '#ffbe0b';
-      this.ctx.fillRect(this.player.x + 15, this.player.y + 5, 10, 10);
+    startGame() {
+      this.enterFullscreen()
+      this.initGame()
     },
-    drawEnemy(enemy) {
-      this.ctx.fillStyle = enemy.color;
-      this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-      this.ctx.fillStyle = '#ffffff';
-      this.ctx.fillRect(enemy.x + 8, enemy.y + 8, 8, 8);
-      this.ctx.fillRect(enemy.x + 19, enemy.y + 8, 8, 8);
-    },
-    endGame() {
-      this.gameOver = true;
-      this.saveHighScore();
-      if (this.animationId) {
-        cancelAnimationFrame(this.animationId);
-      }
-    }
-  }
+  },
 }
 </script>
 
 <style scoped>
 .game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+  position: fixed;
+  inset: 0;
+  background-color: #0f172a;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: 'Courier New', monospace;
-  box-sizing: border-box;
 }
 
 canvas {
-  display: block;
-  width: 100vw;
-  height: 100vh;
-  border: none;
-  background: #0a0e27;
+  position: absolute;
+  inset: 0;
+  touch-action: none;
 }
 
-.start-screen, .game-over-screen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background: rgba(10, 14, 39, 0.95);
-  padding: 40px;
-  border-radius: 20px;
-  border: 3px solid #00ff41;
-  box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+.score-display {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: white;
+  font-family: monospace;
   z-index: 10;
 }
 
+.score {
+  font-size: 2rem;
+}
+
+.high-score {
+  font-size: 1.25rem;
+  color: #9ca3af;
+}
+
+.menu-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.9);
+  z-index: 20;
+}
+
+.menu-content {
+  text-align: center;
+  color: white;
+}
+
 .title {
-  font-size: 3em;
-  color: #00ff41;
-  margin: 0 0 20px 0;
-  text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #4ade80;
 }
 
-.game-over-title {
-  font-size: 2.5em;
-  color: #ff006e;
-  margin: 0 0 20px 0;
-  text-shadow: 0 0 20px rgba(255, 0, 110, 0.8);
+.game-over {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ef4444;
 }
 
-.highscore, .final-score {
-  font-size: 1.5em;
-  color: #ffbe0b;
-  margin: 10px 0;
+.final-score {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.new-high {
-  font-size: 1.3em;
-  color: #00ff41;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.start-btn, .restart-btn {
-  font-size: 1.5em;
-  padding: 15px 40px;
-  margin-top: 20px;
-  background: #00ff41;
-  color: #0a0e27;
+.start-button {
+  background-color: #22c55e;
+  color: white;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
   border: none;
-  border-radius: 10px;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
-  font-family: 'Courier New', monospace;
+  transition: background-color 0.3s;
 }
 
-.start-btn:hover, .restart-btn:hover {
-  background: #00d9ff;
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+.start-button:hover {
+  background-color: #16a34a;
 }
 
-.hud {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 40px;
-  font-size: 1.5em;
-  color: #00ff41;
-  text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
-  z-index: 5;
+.instructions {
+  margin-top: 1.5rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
 }
 
-.mobile-controls {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 20px;
-  z-index: 5;
-}
-
-.control-btn {
-  width: 70px;
-  height: 70px;
-  font-size: 1.5em;
-  background: rgba(0, 255, 65, 0.3);
-  color: #00ff41;
-  border: 3px solid #00ff41;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s;
-  font-family: 'Courier New', monospace;
-  touch-action: manipulation;
-}
-
-.fire-btn {
-  background: rgba(255, 0, 110, 0.3);
-  border-color: #ff006e;
-  color: #ff006e;
-  width: 90px;
-  height: 90px;
-  font-size: 1.2em;
-}
-
-.control-btn:active {
-  transform: scale(0.9);
-  box-shadow: 0 0 20px currentColor;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .title {
-    font-size: 2em;
+    font-size: 2rem;
   }
-  
-  .hud {
-    font-size: 1.2em;
-    gap: 20px;
+
+  .game-over {
+    font-size: 1.5rem;
   }
-  
-  .control-btn {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .fire-btn {
-    width: 75px;
-    height: 75px;
+
+  .final-score {
+    font-size: 1.25rem;
   }
 }
 </style>
