@@ -1,5 +1,5 @@
 <template>
-  <Day day="24.12.2024">
+  <Day day="24.12.2025">
     <div slot="page-content">
       <h2>⭐🎄⭐</h2>
       <Snake />

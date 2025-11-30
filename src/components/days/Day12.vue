@@ -1,5 +1,5 @@
 <template>
-  <Day day="12.12.2024">
+  <Day day="12.12.2025">
     <div slot="page-content">
       <Pong />
       <p class="caption-img">

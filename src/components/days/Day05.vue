@@ -1,5 +1,5 @@
 <template>
-  <Day day="05.12.2024">
+  <Day day="05.12.2025">
     <div slot="page-content">
       <SideScroller />
       <img width="300" src="https://placekitten.com/300/300" alt="" />

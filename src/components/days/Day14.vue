@@ -1,5 +1,5 @@
 <template>
-  <Day day="14.12.2024">
+  <Day day="14.12.2025">
     <div slot="page-content">
       <img class="img" width="1200" src="https://cdn.pixabay.com/photo/2014/06/17/21/35/frog-370751_1280.jpg" alt="" />
       <p>I love to show you new things 🗺️</p>
