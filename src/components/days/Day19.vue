@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2016/11/08/15/33/frog-1808636_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2020/07/15/15/19/frog-5407998_1280.jpg"
         alt=""
       >
-      <p>Your determination to grow and learn is inspiring.</p>
+      <p>I love your choice of clothing 🌟</p>
       <p class="caption-img">
         <img
           width="300"

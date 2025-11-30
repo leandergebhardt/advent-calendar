@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2016/05/05/02/12/frog-1373140_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2021/07/29/15/29/gray-treefrog-6507432_1280.jpg"
         alt=""
       >
-      <p>The peace you bring to difficult situations is a gift.</p>
+      <p>I love that you support me even if I'm not fun to be around and help me get better. 💖</p>
       <p class="caption-img">
         <img
           width="300"

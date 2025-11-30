@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2023/07/23/14/13/frog-8145165_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2022/01/23/16/07/red-eyed-tree-frog-6961238_1280.jpg"
         alt=""
       >
-      <p>Your smile has the power to make any day better.</p>
+      <p>I love the sound of your voice ❤️</p>
       <img
         width="300"
         src="https://placekitten.com/300/300"

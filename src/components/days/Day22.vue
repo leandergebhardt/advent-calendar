@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2011/07/25/23/39/finger-coral-tree-frog-8341_1280.jpg"
+        src="https://cdn.pixabay.com/photo/2023/08/01/15/21/frog-8163211_1280.jpg"
         alt=""
       >
-      <p>The way you make time for others shows your generous spirit.</p>
+      <p>I love that you also enjoy the silence like me. (sometimes a little more than me ☺️)</p>
       <p class="caption-img">
         <img
           width="300"
