@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="background">
-      <video autoplay loop id="video-background" muted plays-inline>
+      <video id="video-background" playsinline muted autoplay loop>
         <source :src="video.src" :type="video.type" />
       </video>
     </div>
@@ -12,43 +12,43 @@
 </template>
 
 <script>
-import Moment from "moment";
+import Moment from 'moment'
 
 export default {
-  name: "App",
+  name: 'App',
   metaInfo: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Frankies Adventskalender",
+    title: 'Frankies Adventskalender',
   },
   data() {
     return {
       sources: [
         {
-          src: require("./assets/snow-mountain-house.720x1280.mp4"),
-          type: "video/mp4",
+          src: require('./assets/snow-mountain-house.720x1280.mp4'),
+          type: 'video/mp4',
         },
         {
-          src: require("./assets/green-fields-and-peaks.720x1280.mp4"),
-          type: "video/mp4",
+          src: require('./assets/green-fields-and-peaks.720x1280.mp4'),
+          type: 'video/mp4',
         },
         {
-          src: require("./assets/green-leaves.720x1280.mp4"),
-          type: "video/mp4",
+          src: require('./assets/green-leaves.720x1280.mp4'),
+          type: 'video/mp4',
         },
       ],
-    };
+    }
   },
   computed: {
     video: function () {
-      let day = new Moment().format("d");
-      return this.sources[day % this.sources.length];
+      let day = new Moment().format('d')
+      return this.sources[day % this.sources.length]
     },
   },
-};
+}
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css?family=Handlee|Montserrat:300,400");
+@import url('https://fonts.googleapis.com/css?family=Handlee|Montserrat:300,400');
 
 html {
   box-sizing: border-box;
@@ -62,7 +62,7 @@ html {
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #fff;
   background: #222;
   margin: 0;
@@ -95,7 +95,7 @@ h1 {
 
 h1,
 h2 {
-  font-family: "Handlee", cursive;
+  font-family: 'Handlee', cursive;
   text-align: center;
 }
 
