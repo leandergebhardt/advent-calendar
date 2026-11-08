@@ -12,7 +12,7 @@
 
 <script>
 import Day from '../Day.vue'
-import Snake from '../games/snake.vue'
+import FruitNinja from '../games/fruit_ninja.vue'
 
 export default {
   name: 'Day24',
