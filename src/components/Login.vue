@@ -29,7 +29,7 @@ import jsSHA from 'jssha'
 
 // create your own secret hash (for example here: https://caligatio.github.io/jsSHA/)
 const SECRET = '605bf996570672d8e9021d32dd1848cb271a087da9152c4f5e5f352a258ac290';
-const PASSWORD_HASH = '0eea4dee35f4e0b8ea73287e68d7f7fed5cdff2b0aa7edcdeca0f76572b177cdb0687b205b6dd471172670557fc7f23153c39a4d448ad8d904d5bfb51e8ef1b9'
+const PASSWORD_HASH = '20by0n+H7+gVyFIkFsvqEJw7d/1Cq0vBa0Dst4lhpUkHkKU6shmr9zmlaFvgkBu+yCQ4X3INV8eEsmfFFKp3DA=='
 
 export default {
   name: 'Login',
