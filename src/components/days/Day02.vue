@@ -4,7 +4,7 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2014/03/28/02/02/tree-frog-299881_1280.jpg"
+        src=""
         alt=""
       />
       <p>I love the noises you make.</p>

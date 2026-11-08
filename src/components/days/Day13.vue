@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2024/02/27/00/13/heliconia-8599119_1280.jpg"
+        src=""
         alt=""
       />
-      <p>I love running my fingers through your hair.</p>
+      <p></p>
       <p class="caption-img">
         <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>

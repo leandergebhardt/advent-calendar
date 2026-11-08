@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2021/07/29/15/29/gray-treefrog-6507432_1280.jpg"
+        src=""
         alt=""
       />
-      <p>I love that you support me even if I'm not fun to be around and help me get better. 💖</p>
+      <p></p>
       <p class="caption-img">
         <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>
