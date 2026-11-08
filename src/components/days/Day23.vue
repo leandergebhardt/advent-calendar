@@ -1,8 +1,12 @@
 <template>
   <Day day="23.12.2025">
     <div slot="page-content">
-      <img class="img" width="1200" src="https://cdn.pixabay.com/photo/2013/02/01/17/16/frog-77147_1280.jpg" alt="" />
-      <p>I love to hold you in my arms ❤️‍🔥</p>
+      <img 
+      class="img" 
+      width="1200" 
+      src="" 
+      alt="" />
+      <p></p>
       <p class="caption-img">
         <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>

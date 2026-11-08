@@ -1,7 +1,7 @@
 <template>
   <Day day="20.12.2025">
     <div slot="page-content">
-      <FruitNinja />
+      <Snake />
       <p class="caption-img">
         <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>
@@ -17,7 +17,7 @@ export default {
   name: 'Day20',
   components: {
     Day,
-    FruitNinja,
+    Snake,
   },
 }
 </script>

@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2014/03/28/02/05/tree-frog-299883_1280.jpg"
+        src=""
         alt=""
       />
-      <p>I love to cuddle with you 🤗</p>
+      <p></p>
       <img width="300" src="https://placekitten.com/300/300" alt="" />
     </div>
   </Day>

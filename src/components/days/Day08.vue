@@ -4,10 +4,10 @@
       <img
         class="img"
         width="1200"
-        src="https://cdn.pixabay.com/photo/2015/08/11/21/41/maranonfrosch-885251_1280.jpg"
+        src=""
         alt=""
       />
-      <p>I love how you smell 👃🏼✨</p>
+      <p></p>
       <p class="caption-img">
         <img width="300" src="https://placekitten.com/300/300" alt="" />
       </p>
