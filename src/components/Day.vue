@@ -56,21 +56,13 @@ export default {
 
 <style lang="scss">
 .page-content {
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   flex-flow: column;
   text-align: center;
 
   background: rgba(#000, 0.3);
   padding: 25px;
-
-  @media screen and (max-width: 900px) {
-    width: 75%;
-  }
-
-  @media screen and (max-width: 400px) {
-    width: 90%;
-  }
 }
 
 .page-content video {
