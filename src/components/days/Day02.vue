@@ -4,22 +4,28 @@
       <img
         class="img"
         width="1200"
-        src=""
+        :src="image"
         alt=""
       />
-      <p>I love the noises you make.</p>
+      <p>Ruslan mit Regenschirm ☂️</p>
       <img width="300" src="https://placekitten.com/300/300" alt="" />
     </div>
   </Day>
 </template>
 
 <script>
+import image from '../../assets/fotos/IMG_3295.jpeg'
 import Day from '../Day.vue'
 
 export default {
   name: 'Day02',
   components: {
     Day,
+  },
+  data() {
+    return {
+      image,
+    }
   },
 }
 </script>
