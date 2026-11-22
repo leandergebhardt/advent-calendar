@@ -2,9 +2,6 @@
   <Day day="16.12.2025">
     <div slot="page-content">
       <SpaceInvaders />
-      <p class="caption-img">
-        <img width="300" src="https://placekitten.com/300/300" alt="" />
-      </p>
     </div>
   </Day>
 </template>

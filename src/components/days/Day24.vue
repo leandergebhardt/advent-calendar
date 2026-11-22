@@ -3,9 +3,6 @@
     <div slot="page-content">
       <h2>⭐🎄⭐</h2>
       <FruitNinja />
-      <p class="caption-img">
-        <img width="300" src="https://placekitten.com/300/300" alt="" />
-      </p>
     </div>
   </Day>
 </template>

@@ -1,25 +1,25 @@
 <template>
   <Day day="06.12.2025">
     <div slot="page-content">
-      <img
-        class="img"
-        width="1200"
-        src=""
-        alt=""
-      />
+      <FullscreenImage class="img" :src="image" alt="" />
       <p></p>
-      <img width="300" src="https://placekitten.com/300/300" alt="" />
     </div>
   </Day>
 </template>
 
 <script>
+import image from '../../assets/fotos/IMG_3305.jpeg'
 import Day from '../Day.vue'
 
 export default {
   name: 'Day06',
   components: {
     Day,
+  },
+  data() {
+    return {
+      image,
+    }
   },
 }
 </script>

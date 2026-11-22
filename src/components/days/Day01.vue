@@ -2,7 +2,6 @@
   <Day day="01.12.2025">
     <div slot="page-content">
       <Asteriods />
-      <img width="300" src="https://placekitten.com/300/300" alt="" />
     </div>
   </Day>
 </template>

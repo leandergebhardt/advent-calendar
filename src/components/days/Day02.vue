@@ -1,14 +1,8 @@
 <template>
   <Day day="02.12.2025">
     <div slot="page-content">
-      <img
-        class="img"
-        width="1200"
-        :src="image"
-        alt=""
-      />
+      <FullscreenImage class="img" :src="image" alt="Ruslan mit Regenschirm" />
       <p>Ruslan mit Regenschirm ☂️</p>
-      <img width="300" src="https://placekitten.com/300/300" alt="" />
     </div>
   </Day>
 </template>
