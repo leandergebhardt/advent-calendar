@@ -1,7 +1,7 @@
 <template>
   <Day day="02.12.2025">
     <div slot="page-content">
-      <FullscreenImage class="img" :src="image" alt="Ruslan mit Regenschirm" />
+      <FullscreenImage class="img" :src="image" :preview-src="preview" alt="Ruslan mit Regenschirm" />
       <p>Ruslan mit Regenschirm ☂️</p>
     </div>
   </Day>
@@ -9,6 +9,7 @@
 
 <script>
 import image from '../../assets/fotos/IMG_3295.jpeg'
+import preview from '../../assets/fotos/previews/IMG_3295.webp'
 import Day from '../Day.vue'
 
 export default {
@@ -19,6 +20,7 @@ export default {
   data() {
     return {
       image,
+      preview,
     }
   },
 }

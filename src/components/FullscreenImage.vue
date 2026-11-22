@@ -6,7 +6,14 @@
       :aria-label="alt || 'Bild im Vollbild öffnen'"
       @click="open"
     >
-      <img :src="src" :alt="alt" />
+      <img
+        :src="previewSrc || src"
+        :alt="alt"
+        loading="lazy"
+        decoding="async"
+        width="1200"
+        height="900"
+      />
     </button>
 
     <div
@@ -25,7 +32,12 @@
       >
         ×
       </button>
-      <img class="overlay-image" :src="src" :alt="alt" />
+      <img
+        class="overlay-image"
+        :src="src"
+        :alt="alt"
+        decoding="async"
+      />
     </div>
   </div>
 </template>
@@ -37,6 +49,10 @@ export default {
     src: {
       type: String,
       required: true,
+    },
+    previewSrc: {
+      type: String,
+      default: '',
     },
     alt: {
       type: String,

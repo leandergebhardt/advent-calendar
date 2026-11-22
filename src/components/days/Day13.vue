@@ -1,7 +1,7 @@
 <template>
   <Day day="13.12.2025">
     <div slot="page-content">
-      <FullscreenImage class="img" :src="image" alt="" />
+      <FullscreenImage class="img" :src="image" :preview-src="preview" alt="" />
       <p></p>
     </div>
   </Day>
@@ -9,6 +9,7 @@
 
 <script>
 import image from '../../assets/fotos/IMG_3370.jpeg'
+import preview from '../../assets/fotos/previews/IMG_3370.webp'
 import Day from '../Day.vue'
 
 export default {
@@ -19,6 +20,7 @@ export default {
   data() {
     return {
       image,
+      preview,
     }
   },
 }
