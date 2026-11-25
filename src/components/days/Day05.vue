@@ -1,5 +1,5 @@
 <template>
-  <Day day="05.12.2025">
+  <Day day="05.12.2026">
     <div slot="page-content">
       <SideScroller />
     </div>

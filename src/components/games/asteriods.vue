@@ -3,14 +3,14 @@
     <canvas ref="canvas" @touchstart.prevent @touchmove.prevent @touchend.prevent></canvas>
     
     <div class="hud">
-      <div class="score">Score: {{ score }}</div>
-      <div class="lives">Lives: {{ lives }}</div>
+      <div class="score">Punkte: {{ score }}</div>
+      <div class="lives">Leben: {{ lives }}</div>
     </div>
 
     <div v-if="gameOver" class="game-over">
-      <h2>Game Over</h2>
-      <p>Final Score: {{ score }}</p>
-      <button @click="restart">Play Again</button>
+      <h2>Spiel vorbei</h2>
+      <p>Endstand: {{ score }}</p>
+      <button @click="restart">Noch einmal spielen</button>
     </div>
 
     <div class="controls">

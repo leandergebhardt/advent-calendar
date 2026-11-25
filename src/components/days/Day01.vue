@@ -1,5 +1,5 @@
 <template>
-  <Day day="01.12.2025">
+  <Day day="01.12.2026">
     <div slot="page-content">
       <Asteriods />
     </div>

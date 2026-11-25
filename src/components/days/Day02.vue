@@ -1,5 +1,5 @@
 <template>
-  <Day day="02.12.2025">
+  <Day day="02.12.2026">
     <div slot="page-content">
       <FullscreenImage class="img" :src="image" :preview-src="preview" alt="Ruslan mit Regenschirm" />
       <p>Ruslan mit Regenschirm ☂️</p>

@@ -1,8 +1,8 @@
 <template>
   <div class="game-container">
     <div class="game-content">
-      <div class="highscore">High Score: {{ highscore }}</div>
-      <div class="score">Score: {{ score }}</div>
+      <div class="highscore">Rekord: {{ highscore }}</div>
+      <div class="score">Punkte: {{ score }}</div>
       <canvas
         ref="canvas"
         :width="canvasWidth"
@@ -11,15 +11,15 @@
         @touchmove="handleTouchMove"
         @touchstart="handleTouchStart"
       ></canvas>
-      <div v-if="gameOver" class="game-over">Game Over!</div>
+      <div v-if="gameOver" class="game-over">Spiel vorbei!</div>
       <button v-if="gameOver" @click="resetGame" class="restart-btn">
-        Restart
+        Neustart
       </button>
       <div class="controls">
         {{
           isMobile
-            ? "Touch to move paddle"
-            : "Move paddle with Arrow Keys or Mouse"
+            ? "Tippe zum Bewegen des Schlägers"
+            : "Schläger mit Pfeiltasten oder Maus bewegen"
         }}
       </div>
     </div>

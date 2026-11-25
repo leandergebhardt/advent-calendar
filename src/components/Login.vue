@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Please enter your password</h1>
+    <h1>Bitte gib dein Passwort ein</h1>
     <div class="form">
       <div
         class="error"
         v-if="error"
       >
-        An error occured. Please try again!
+        Ein Fehler ist aufgetreten. Bitte versuche es erneut!
       </div>
       <input
         type="password"
@@ -17,7 +17,7 @@
         type="submit"
         @click="checkLogin"
       >
-        Login
+        Anmelden
       </button>
     </div>
   </div>
@@ -45,7 +45,7 @@ export default {
   methods: {
     checkLogin: async function () {
       if (this.lockoutUntil && Date.now() < this.lockoutUntil) {
-        this.error = 'Too many attempts. Please wait.'
+        this.error = 'Zu viele Versuche. Bitte warte.'
         return
       }
 
@@ -66,7 +66,7 @@ export default {
         }
 
         if (!response.ok) {
-          throw new Error('Password verification failed')
+          throw new Error('Passwortprüfung fehlgeschlagen')
         }
 
         const expiryDate = new Date()
@@ -78,8 +78,8 @@ export default {
         // redirect to calendar view
         this.$router.replace({path: '/'})
       } catch (error) {
-        console.error('Unable to verify password', error)
-        this.error = 'Unable to verify password. Please try again.'
+        console.error('Passwort konnte nicht geprüft werden', error)
+        this.error = 'Passwort konnte nicht geprüft werden. Bitte versuche es erneut.'
       }
     }
   }

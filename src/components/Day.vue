@@ -17,9 +17,9 @@
     </main>
     <main v-else>
       <div class="page-content">
-        <h2>No cheating!</h2>
+        <h2>Nicht mogeln!</h2>
         <p style="text-align:center;">
-          Seems like you need to be a little more patient ;-)
+          Du musst dich wohl noch ein wenig gedulden ;-)
         </p>
       </div>
     </main>
@@ -28,7 +28,10 @@
 
 <script>
 import Moment from 'moment'
+import 'moment/locale/de'
 import BackToCalendar from "@/components/BackToCalendar";
+
+Moment.locale('de')
 
 export default {
   name: 'Day',

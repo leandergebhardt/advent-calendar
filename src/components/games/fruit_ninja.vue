@@ -5,8 +5,8 @@
     @touchstart.prevent="handleTouch"
   >
     <!-- Score Display -->
-    <div class="score">Score: {{ score }}</div>
-    <div class="high-score">High: {{ highScore }}</div>
+    <div class="score">Punkte: {{ score }}</div>
+    <div class="high-score">Rekord: {{ highScore }}</div>
 
     <!-- Lives Display -->
     <div class="lives">
@@ -44,18 +44,18 @@
     <div v-if="!gameStarted && !gameOver" class="overlay">
       <div class="menu">
         <h1 class="title">🍉 Fruit Ninja</h1>
-        <p class="subtitle">Slice fruits, avoid bombs!</p>
-        <button @click="startGame" @touchend.prevent="startGame" class="btn">Start Game</button>
+        <p class="subtitle">Zerschneide Früchte und meide Bomben!</p>
+        <button @click="startGame" @touchend.prevent="startGame" class="btn">Spiel starten</button>
       </div>
     </div>
 
     <!-- Game Over Screen -->
     <div v-if="gameOver" class="overlay">
       <div class="menu">
-        <h1 class="title">Game Over!</h1>
-        <p class="score-text">Score: {{ score }}</p>
-        <p class="high-score-text">High Score: {{ highScore }}</p>
-        <button @click="startGame" @touchend.prevent="startGame" class="btn">Play Again</button>
+        <h1 class="title">Spiel vorbei!</h1>
+        <p class="score-text">Punkte: {{ score }}</p>
+        <p class="high-score-text">Rekord: {{ highScore }}</p>
+        <button @click="startGame" @touchend.prevent="startGame" class="btn">Noch einmal spielen</button>
       </div>
     </div>
   </div>

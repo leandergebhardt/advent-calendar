@@ -5,11 +5,11 @@
         <h1 class="title">TETRIS</h1>
         <div class="scores">
           <div class="score-item">
-            <span class="label">Score:</span>
+            <span class="label">Punkte:</span>
             <span class="value score">{{ score }}</span>
           </div>
           <div class="score-item">
-            <span class="label">High:</span>
+            <span class="label">Rekord:</span>
             <span class="value high-score">{{ highScore }}</span>
           </div>
         </div>
@@ -28,18 +28,18 @@
         </div>
 
         <div v-if="!gameStarted" class="overlay">
-          <button @click="startGame" class="btn btn-start">START GAME</button>
+          <button @click="startGame" class="btn btn-start">SPIEL STARTEN</button>
         </div>
 
         <div v-if="gameOver" class="overlay">
-          <div class="game-over-text">GAME OVER!</div>
-          <div class="final-score">Score: {{ score }}</div>
-          <button @click="startGame" class="btn btn-restart">PLAY AGAIN</button>
+          <div class="game-over-text">SPIEL VORBEI!</div>
+          <div class="final-score">Punkte: {{ score }}</div>
+          <button @click="startGame" class="btn btn-restart">NOCH EINMAL</button>
         </div>
 
         <div v-if="isPaused && gameStarted && !gameOver" class="overlay">
-          <div class="paused-text">PAUSED</div>
-          <button @click="togglePause" class="btn btn-resume">RESUME</button>
+          <div class="paused-text">PAUSE</div>
+          <button @click="togglePause" class="btn btn-resume">FORTSETZEN</button>
         </div>
       </div>
 
@@ -63,7 +63,7 @@
             <span class="control-icon">↓</span>
           </button>
           <button @click="movePiece(0, 1)" class="btn-control btn-soft">
-            <span class="control-icon-small">Soft</span>
+            <span class="control-icon-small">Schnell</span>
           </button>
         </div>
       </div>

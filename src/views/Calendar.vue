@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Merry Christmas</h1>
-    <h2>to you!</h2>
+    <h1>Frohen Advent</h1>
+    <h2>wünsche ich dir!</h2>
     <div class="cards-wrapper">
       <ul class="cards">
         <li

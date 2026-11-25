@@ -11,21 +11,21 @@
     />
 
     <div class="score-display">
-      <div class="score">Score: {{ score }}</div>
-      <div class="high-score">High: {{ highScore }}</div>
+      <div class="score">Punkte: {{ score }}</div>
+      <div class="high-score">Rekord: {{ highScore }}</div>
     </div>
 
     <div v-if="!gameStarted" class="menu-overlay">
       <div class="menu-content">
         <h1 class="title">SPACE INVADERS</h1>
         <div v-if="gameOver">
-          <div class="game-over">GAME OVER</div>
-          <div class="final-score">Final Score: {{ score }}</div>
+          <div class="game-over">SPIEL VORBEI</div>
+          <div class="final-score">Endstand: {{ score }}</div>
         </div>
         <button @click="startGame" class="start-button">
-          {{ gameOver ? 'PLAY AGAIN' : 'START GAME' }}
+          {{ gameOver ? 'NOCH EINMAL' : 'SPIEL STARTEN' }}
         </button>
-        <div class="instructions">Touch/Click and hold to move and shoot</div>
+        <div class="instructions">Zum Bewegen und Schießen gedrückt halten oder tippen</div>
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 <template>
-  <Day day="07.12.2025">
+  <Day day="07.12.2026">
     <div slot="page-content">
       <FullscreenImage class="img" :src="image" :preview-src="preview" alt="" />
-      <p></p>
+      <p>Im Café mit Rundem Fenster ☕</p>
     </div>
   </Day>
 </template>

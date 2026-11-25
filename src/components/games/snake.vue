@@ -2,8 +2,8 @@
   <div class="game-container">
     <div class="game-content">
       <div class="header">
-        <h1 class="title">Snake Game</h1>
-        <div class="score">Score: {{ score }}</div>
+        <h1 class="title">Snake-Spiel</h1>
+        <div class="score">Punkte: {{ score }}</div>
       </div>
 
       <div class="game-board" :style="boardStyle">
@@ -30,30 +30,30 @@
       <!-- Game Over Overlay -->
       <div v-if="gameOver" class="overlay">
         <div class="overlay-content">
-          <div class="game-over-text">Game Over!</div>
-          <div class="final-score">Final Score: {{ score }}</div>
+          <div class="game-over-text">Spiel vorbei!</div>
+          <div class="final-score">Endstand: {{ score }}</div>
           <button @click="resetGame" class="play-again-btn">
-            Play Again
+            Noch einmal spielen
           </button>
         </div>
       </div>
 
       <!-- Pause Overlay -->
       <div v-if="isPaused && !gameOver" class="overlay">
-        <div class="paused-text">PAUSED</div>
+        <div class="paused-text">PAUSE</div>
       </div>
     </div>
 
     <!-- Mobile Controls -->
     <div class="controls">
       <button @click="togglePause" class="pause-btn-mobile">
-        {{ isPaused ? '▶ Resume' : '⏸ Pause' }}
+        {{ isPaused ? '▶ Fortsetzen' : '⏸ Pause' }}
       </button>
     </div>
 
     <div class="instructions">
-      <strong>Desktop:</strong> Arrow keys or WASD • Space to pause<br>
-      <strong>Mobile:</strong> Swipe to control direction
+      <strong>Desktop:</strong> Pfeiltasten oder WASD • Leertaste zum Pausieren<br>
+      <strong>Mobil:</strong> Wischen, um die Richtung zu ändern
     </div>
     </div>
   </div>

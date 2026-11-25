@@ -9,26 +9,26 @@
     <!-- Start Screen -->
     <div v-if="!gameStarted" class="overlay">
       <div class="menu">
-        <h1>❄️ Winter Runner ❄️</h1>
-        <p>Tap to jump over obstacles!</p>
+        <h1>❄️ Winterläufer ❄️</h1>
+        <p>Tippe, um über Hindernisse zu springen!</p>
         <button @click="startGame" class="btn-start">START</button>
-        <p class="high-score">High Score: {{ highScore }}</p>
+        <p class="high-score">Rekord: {{ highScore }}</p>
       </div>
     </div>
     
     <!-- Game Over Screen -->
     <div v-if="gameOver" class="overlay">
       <div class="menu">
-        <h1>Game Over!</h1>
-        <p class="score">Score: {{ score }}</p>
-        <p class="high-score-gold">High Score: {{ highScore }}</p>
-        <button @click="startGame" class="btn-start">PLAY AGAIN</button>
+        <h1>Spiel vorbei!</h1>
+        <p class="score">Punkte: {{ score }}</p>
+        <p class="high-score-gold">Rekord: {{ highScore }}</p>
+        <button @click="startGame" class="btn-start">NOCH EINMAL</button>
       </div>
     </div>
     
     <!-- Score Display -->
     <div v-if="gameStarted && !gameOver" class="score-display">
-      Score: {{ score }}
+      Punkte: {{ score }}
     </div>
   </div>
 </template>

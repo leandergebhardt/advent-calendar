@@ -1,8 +1,8 @@
 <template>
-  <Day day="06.12.2025">
+  <Day day="06.12.2026">
     <div slot="page-content">
       <FullscreenImage class="img" :src="image" :preview-src="preview" alt="" />
-      <p></p>
+      <p>Ruslan und Noshdar stellen ein berühmtes Album Cover nach.</p>
     </div>
   </Day>
 </template>

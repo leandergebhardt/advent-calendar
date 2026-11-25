@@ -1,7 +1,7 @@
 <template>
   <div class="link-back">
     <router-link :to="calendarPath">
-      Back to calendar
+      Zurück zum Kalender
     </router-link>
   </div>
 </template>
